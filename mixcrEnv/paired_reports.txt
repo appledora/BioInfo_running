@@ -1,0 +1,16 @@
+Analysis Date: Tue May 12 00:54:49 BDT 2020
+Input file(s): paired_reads1.fq,paired_reads2.fq
+Output file(s): paired_readstest.vdjca
+Version: 2.1.10; built=Fri Mar 30 20:59:50 BDT 2018; rev=87f92f5; lib=repseqio.v1.5
+Command line arguments: align -a --write-all -g -r paired_reports.txt -f -s hsa -c IGH paired_reads1.fq paired_reads2.fq paired_readstest.vdjca
+Analysis time: 3.25s
+Total sequencing reads: 1702
+Successfully aligned reads: 1222 (71.8%)
+Alignment failed because of absence of J hits: 479 (28.14%)
+Alignment failed because of low total score: 1 (0.06%)
+Overlapped: 1692 (99.41%)
+Overlapped and aligned: 1219 (71.62%)
+Alignment-aided overlaps: 11 (0.9%)
+Overlapped and not aligned: 473 (27.79%)
+IGH chains: 1222 (100%)
+======================================
