@@ -5,26 +5,21 @@ from Bio import SeqIO
 from Bio import pairwise2
 from Bio.pairwise2 import format_alignment
 
+# this script is used to compare my algorithm with NgMerge's output
 
-data = pd.read_csv('revr2-igsim.csv')
+data = pd.read_csv('paired_reads.csv')
 
-fread = data["Final Read"]
-fread2 = data["Final Read after GA"]
+my_read = data["Final Read"]
+my_read2 = data["Final Read after GA"]
+my_read_name = data["name"]
 
-my_name = data["name"]
-
+a_read2 = []
 purine = 0
 pyrimidine = 0
 other = 0
-missed_index = []
-my_name2 = []
-my_read = []
-my_read2 = []
-a_read2 = []
 
 
 def match_process(s1, s2):
-    # print(len(s1),"   ", len(s2))
     temp = ""
     global purine
     global pyrimidine
@@ -49,6 +44,7 @@ def match_process(s1, s2):
         else:
             temp += s2[i]
     a_read2.append(temp)
+    ng_length.append(len(temp))
     # print(temp)
 
 
@@ -72,75 +68,78 @@ def count_ga(s1, s2):
 
 
 a_read1 = []
-it = 0
-with open("NgmergeEnv/paired_NG.fastq", "rU") as f1:
-    lines1 = []
+ng_read_name = []
 
+
+with open("paired_NG.fastq", "rU") as f1:
+    lines1 = []
     for line1 in f1:
         lines1.append(line1.rstrip())
         if len(lines1) == 4:
             record = process(lines1)
-            for it in range(it, len(my_name)):
-                if(record["name"] == my_name[it]):
-                    my_read.append(fread[it])
-                    my_read2.append(fread2[it])
-                    a_read1.append(record["sequence"])
-                    it+=1
-                    break
-                else :
-                    print("iter => ", it)
-                    #missed_index.append(it)
-
+            a_read1.append(record["sequence"])
+            ng_read_name.append(record["name"])
             lines1 = []
-
 
 print(len(my_read))
 print(len(a_read1))
+
 count = 0
+countNameMismatch = 0
+
 isMatch = []
 GA_score = []
-in_presto = []
-sub_presto = []
-accuracy_presto = []
+in_ng = []
+sub_ng = []
+accuracy_ng = []
+ng_length = []
+missing_id = []
 
+data_names = ''.join(ng_read_name)
+
+for i in my_read_name:
+    if data_names.find(str(i)) < 0:
+        missing_id.append(i)
+
+print(len(missing_id))
+j = 0
 for i in range(len(my_read)):
-    if i in missed_index:
-        accuracy_presto.append("NULL")
-        GA_score.append("NULL")
-        isMatch.append("NULL")
-    else:
-        alignments = pairwise2.align.globalms(
-            my_read[i], a_read1[i], 1, -1, -1, 0)
-        inC, subC = count_ga(alignments[0][0], alignments[0][1])
+    if(my_read_name[i] not in missing_id):
 
+        alignments = pairwise2.align.globalms(
+            my_read[i], a_read1[j], 1, -1, -1, 0)
+        inC, subC = count_ga(alignments[0][0], alignments[0][1])
         accuracy = ((len(alignments[0][0]) -
                      (inC+subC))/len(alignments[0][0]))*100
-        accuracy_presto.append(accuracy)
+        accuracy_ng.append(accuracy)
         GA_score.append(alignments[0][2])
 
-        match_process(my_read[i], a_read1[i])
-        if (my_read[i] == a_read1[i] or my_read2[i] == a_read1[i]):
+
+        match_process(my_read[i], a_read1[j])
+        if (my_read[i] == a_read1[j] or my_read2[i] == a_read1[j]):
             count += 1
             isMatch.append(True)
         else:
             isMatch.append(False)
+        j+=1;
+    else :
+        print("MISMATCH")
+        ng_length.append("NULL")
+        a_read2.append("NULL")
+        accuracy_ng.append("NULL")
+        GA_score.append("NULL")
+        isMatch.append("NULL")
+        continue
 
-# print(GA_score)
 
-# gcount = 0
-# for i in range (len(GA_score)):
-#     if(GA_score[i] <= 168):
-#         gcount += 1
+data['ng string'] = a_read2
+data['ng length'] = ng_length
+data['Matches'] = isMatch
+data['ng vs Code GA_score'] = GA_score
+data['Accuracy after aligning with ng'] = accuracy_ng
+data.to_csv("paired_reads-ng.csv")
 
-# data['ngmerge string'] = a_read2
-# data['Matches'] = isMatch;
-# data['ngmerge vs Code GA_score'] = GA_score
-# data['Accuracy after aligning with ngmerge'] = accuracy_presto
-# data.to_csv("revr2_igsim-ng.csv")
-# print(isMatch)
-# print(len(a_read2))
-# print(data.columns)
-# match_process("ABCDEFGH","ABEFPQGS")
 print(count)
+# print("===> ", countNameMismatch)
 print(purine+pyrimidine)
 print(purine, "------", pyrimidine, "------", other)
