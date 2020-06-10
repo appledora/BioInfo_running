@@ -71,7 +71,7 @@ a_read1 = []
 presto_read_name = []
 
 
-with open("pRESTOenv/paired_presto.fastq", "rU") as f1:
+with open("paired_presto.fastq", "rU") as f1:
     lines1 = []
     for line1 in f1:
         lines1.append(line1.rstrip())
@@ -83,8 +83,10 @@ with open("pRESTOenv/paired_presto.fastq", "rU") as f1:
 
 print(len(my_read))
 print(len(a_read1))
+
 count = 0
 countNameMismatch = 0
+
 isMatch = []
 GA_score = []
 in_presto = []
