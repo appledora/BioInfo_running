@@ -39,23 +39,42 @@ remaining : 100% > accuracy > 99%
 Attached the used dataset and obtained csv for both NgMerge and pRESTO. Dataset were produced using IgSim.
 
 <h3> CSV Columns explanations =></h3>
-name : Sequence Name,
+name : Sequence Name
+
 LCS : LCS found with suffix automata
+
 Index_R1 : index of where LCS started in Read 1
+
 Index_R2 : index of where LCS started in Read 2
+
 Prefix : in Read 1
+
 Suffix : in Read 2
+
 Overlap Score : N/a
+
 Global Align Score in Overlapping area :N/a
+
 InDels in GA,SUbstitutions in GA : N/a
+
 Final Read : final output after using algorithm
+
 Final Read Length : N/a
+
 Final Read after GA  : final output using only Global alignment without the algorithm
+
 Final Read GA Length : N/a
+
 Total accuracy in region : N/a
+
 Total accuracy in region after GA : N/a
+
 presto string/ng string : string obtained from tools
+
 presto length: N/a
+
 Matches:  whether tool output matches algorithm output
+
 pRESTO/Ng vs Code GA_score : global alignment score between tool and algorithm output
+
 Accuracy after aligning with pResto/Ng : Accuracy of algorithm output with tool output
