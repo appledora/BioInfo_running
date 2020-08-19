@@ -7,10 +7,9 @@ from Bio.pairwise2 import format_alignment
 
 # this script is used to compare my algorithm with pRESTO's output
 
-data = pd.read_csv('paired_reads.csv')
+data = pd.read_csv('paired_reads_modularized.csv')
 
 my_read = data["Final Read"]
-my_read2 = data["Final Read after GA"]
 my_read_name = data["name"]
 
 a_read2 = []
@@ -107,7 +106,7 @@ for i in range(len(my_read)):
 
 
             match_process(my_read[i], a_read1[j])
-            if (my_read[i] == a_read1[j] or my_read2[i] == a_read1[j]):
+            if (my_read[i] == a_read1[j]):
                 count += 1
                 isMatch.append(True)
             else:
@@ -117,12 +116,12 @@ for i in range(len(my_read)):
             countNameMismatch +=1
 
 
-data['presto string'] = a_read2
-data['presto length'] = presto_length
-data['Matches'] = isMatch
-data['pRESTO vs Code GA_score'] = GA_score
-data['Accuracy after aligning with pResto'] = accuracy_presto
-data.to_csv("paired_reads-presto.csv")
+# data['presto string'] = a_read2
+# data['presto length'] = presto_length
+# data['Matches'] = isMatch
+# data['pRESTO vs Code GA_score'] = GA_score
+# data['Accuracy after aligning with pResto'] = accuracy_presto
+# data.to_csv("paired_reads-presto.csv")
 
 print(count)
 print("===> ", countNameMismatch)
