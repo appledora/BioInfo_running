@@ -6,7 +6,7 @@ from Bio import pairwise2
 from Bio.pairwise2 import format_alignment
 
 
-data = pd.read_csv('revboth-p.csv')
+data = pd.read_csv('paired_reads.csv')
 
 my_read = data["Final Read"]
 my_read2 = data["Final Read after GA"]
@@ -120,6 +120,6 @@ for i in range(len(my_read)):
 # print(len(a_read2))
 # print(data.columns)
 # match_process("ABCDEFGH","ABEFPQGS")
-print(count)
-print(purine+pyrimidine)
-print(purine, "------", pyrimidine, "------", other)
+# print(count)
+# print(purine+pyrimidine)
+# print(purine, "------", pyrimidine, "------", other)

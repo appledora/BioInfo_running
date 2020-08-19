@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-data = pd.read_csv('paired_reads-presto.csv')
+data = pd.read_csv('/paired_reads-presto.csv')
 
 # r1_prefix = data["prefix"]
 # r2_suffix = data ["suffix"]
